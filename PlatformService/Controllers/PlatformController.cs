@@ -20,7 +20,7 @@ namespace PlatformService.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<PlatformReadDto>> GetAllPlaforms()
+        public ActionResult<IEnumerable<PlatformReadDto>> GetAllPlatforms()
         {
             var platforms = _repo.GetAllPlatforms();
 
