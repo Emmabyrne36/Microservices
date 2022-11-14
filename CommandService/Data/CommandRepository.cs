@@ -45,6 +45,9 @@ namespace CommandService.Data
         public bool PlatformExists(int platformId) =>
             _context.Platforms.Any(p => p.Id == platformId);
 
+        public bool ExternalPlatformExists(int externalPlatformId) =>
+            _context.Platforms.Any(p => p.ExternalId == externalPlatformId);
+
         public bool SaveChanges() =>
             _context.SaveChanges() >= 0;
     }

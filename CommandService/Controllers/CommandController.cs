@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using CommandService.Data;
 using CommandService.Dtos;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using CommandService.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CommandService.Controllers
 {
