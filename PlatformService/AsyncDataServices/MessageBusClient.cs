@@ -44,6 +44,7 @@ namespace PlatformService.AsyncDataServices
             if (_connection.IsOpen)
             {
                 SendMessage(message);
+                Console.WriteLine("--> Message sent to the queue.");
             }
         }
 

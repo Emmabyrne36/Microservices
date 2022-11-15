@@ -52,6 +52,8 @@ namespace CommandService.EventProcessing
                 {
                     repo.CreatePlatform(platform);
                     repo.SaveChanges();
+
+                    Console.WriteLine("--> Message received. Creating platform.");
                 }
             }
             catch (Exception ex)

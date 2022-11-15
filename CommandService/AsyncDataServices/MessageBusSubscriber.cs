@@ -38,7 +38,7 @@ namespace CommandService.AsyncDataServices
                 _eventProcessor.ProcessEvent(notificationMessage);
             };
 
-            _channel.BasicConsume(_queueName, true, consumer);
+            _channel.BasicConsume(queue: _queueName, autoAck: true, consumer: consumer);
 
             return Task.CompletedTask;
         }
@@ -50,6 +50,8 @@ namespace CommandService.AsyncDataServices
                 _channel.Close();
                 _connection.Close();
             }
+
+            base.Dispose();
         }
 
         private void InitialiseRabbitMQ()
@@ -64,7 +66,7 @@ namespace CommandService.AsyncDataServices
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange: Exchange, type: ExchangeType.Fanout);
             _queueName = _channel.QueueDeclare().QueueName;
-            _channel.QueueBind(_queueName, Exchange, "");
+            _channel.QueueBind(queue: _queueName, exchange: Exchange, routingKey: "");
 
             Console.WriteLine("--> Listening on the Message Bus...");
 
