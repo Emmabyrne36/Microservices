@@ -7,10 +7,8 @@ namespace PlatformService.Data
     {
         public static void SeedPopulation(IApplicationBuilder builder, bool isProduction)
         {
-            using (var serviceScope = builder.ApplicationServices.CreateScope())
-            {
-                Seed(serviceScope.ServiceProvider.GetService<AppDbContext>(), isProduction);
-            }
+            using var serviceScope = builder.ApplicationServices.CreateScope();
+            Seed(serviceScope.ServiceProvider.GetService<AppDbContext>(), isProduction);
         }
 
         private static void Seed(AppDbContext context, bool isProduction)

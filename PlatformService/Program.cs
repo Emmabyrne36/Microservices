@@ -47,10 +47,10 @@ app.MapControllers();
 app.MapGrpcService<GrpcPlatformService>();
 
 // Optional
-app.MapGet("/protos/platforms.proto", async context =>
-{
-    await context.Response.WriteAsync(File.ReadAllText("Protos/platforms.proto"));
-});
+//app.MapGet("/protos/platforms.proto", async context =>
+//{
+//    await context.Response.WriteAsync(File.ReadAllText("Protos/platforms.proto"));
+//});
 
 SeedData.SeedPopulation(app, app.Environment.IsProduction());
 
