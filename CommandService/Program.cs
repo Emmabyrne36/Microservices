@@ -39,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-SeedData.SeedPopulation(app);
+await SeedData.SeedPopulation(app);
 
 app.Run();

@@ -1,4 +1,5 @@
-﻿using PlatformService.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PlatformService.Models;
 
 namespace PlatformService.Data
 {
@@ -11,20 +12,20 @@ namespace PlatformService.Data
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void CreatePlatform(Platform platform)
+        public async Task CreatePlatform(Platform platform)
         {
             if (platform == null)
             {
                 throw new ArgumentNullException(nameof(platform));
             }
 
-            _context.Platforms.Add(platform);
+            await _context.Platforms.AddAsync(platform);
         }
 
-        public IEnumerable<Platform> GetAllPlatforms() => _context.Platforms.ToList();
+        public async Task<IEnumerable<Platform>> GetAllPlatforms() => await _context.Platforms.ToListAsync();
 
-        public Platform GetPlatformById(int id) => _context.Platforms.FirstOrDefault(p => p.Id == id);
+        public async Task<Platform> GetPlatformById(int id) => await _context.Platforms.FirstOrDefaultAsync(p => p.Id == id);
 
-        public bool SaveChanges() => _context.SaveChanges() >= 0;
+        public async Task<bool> SaveChanges() => await _context.SaveChangesAsync() >= 0;
     }
 }

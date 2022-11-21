@@ -4,16 +4,15 @@ namespace CommandService.Data
 {
     public interface ICommandRepository
     {
-        bool SaveChanges();
+        Task<bool> SaveChanges();
         
-        IEnumerable<Platform> GetAllPlatforms();
-        void CreatePlatform(Platform platform);
-        bool PlatformExists(int platformId);
-        bool ExternalPlatformExists(int externalPlatformId);
+        Task<IEnumerable<Platform>> GetAllPlatforms();
+        Task CreatePlatform(Platform platform);
+        Task<bool> PlatformExists(int platformId);
+        Task<bool> ExternalPlatformExists(int externalPlatformId);
 
-        IEnumerable<Command> GetCommandsForPlatform(int platformId);
-        Command GetCommand(int platformId, int commandId);
-        void CreateCommand(int platformId, Command command);
-
+        Task<IEnumerable<Command>> GetCommandsForPlatform(int platformId);
+        Task<Command> GetCommand(int platformId, int commandId);
+        Task CreateCommand(int platformId, Command command);
     }
 }

@@ -16,10 +16,10 @@ namespace PlatformService.SyncDataServices.Grpc
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public override Task<PlatformResponse> GetAllPlatforms(GetAllRequest request, ServerCallContext context)
+        public override async Task<PlatformResponse> GetAllPlatforms(GetAllRequest request, ServerCallContext context)
         {
             var response = new PlatformResponse();
-            var platforms = _repo.GetAllPlatforms();
+            var platforms = await _repo.GetAllPlatforms();
 
             var res = _mapper.Map<PlatformResponse>(platforms);
             var res2 = _mapper.Map<IEnumerable<Platform>, PlatformResponse>(platforms);
@@ -29,7 +29,7 @@ namespace PlatformService.SyncDataServices.Grpc
                 response.Platform.Add(_mapper.Map<GrpcPlatformModel>(plat));
             }
 
-            return Task.FromResult(response);
+            return response;
         }
     }
 }

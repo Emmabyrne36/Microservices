@@ -19,9 +19,9 @@ namespace CommandService.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<PlatformReadDto>> GetPlatforms()
+        public async Task<ActionResult<IEnumerable<PlatformReadDto>>> GetPlatforms()
         {
-            var platforms = _repository.GetAllPlatforms();
+            var platforms = await _repository.GetAllPlatforms();
 
             return Ok(_mapper.Map<IEnumerable<PlatformReadDto>>(platforms));
         }
@@ -31,8 +31,8 @@ namespace CommandService.Controllers
         {
             Console.WriteLine("--> Inbound POST # Command Service.");
 
+            // If not using the queue implementation, this method would then create a new command for the platform
             return Ok("Inbound test from Platform Controller");
         }
-
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.Text.Json;
-using AutoMapper;
+﻿using AutoMapper;
 using CommandService.Data;
 using CommandService.Dtos;
 using CommandService.Models;
+using System.Text.Json;
 
 namespace CommandService.EventProcessing
 {
@@ -17,13 +17,13 @@ namespace CommandService.EventProcessing
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public void ProcessEvent(string message)
+        public async Task ProcessEvent(string message)
         {
             var eventType = DetermineEvent(message);
 
             if (eventType.Equals(EventType.PlatformPublished))
             {
-                AddPlatform(message);
+                await AddPlatform(message);
             }
         }
 
@@ -38,7 +38,7 @@ namespace CommandService.EventProcessing
             };
         }
 
-        private void AddPlatform(string platformPublishedMessage)
+        private async Task AddPlatform(string platformPublishedMessage)
         {
             using var scope = _scopeFactory.CreateScope();
             var repo = scope.ServiceProvider.GetRequiredService<ICommandRepository>();
@@ -48,10 +48,10 @@ namespace CommandService.EventProcessing
             {
                 var platform = _mapper.Map<Platform>(platformPublishedDto);
 
-                if (!repo.ExternalPlatformExists(platform.ExternalId))
+                if (!await repo.ExternalPlatformExists(platform.ExternalId))
                 {
-                    repo.CreatePlatform(platform);
-                    repo.SaveChanges();
+                    await repo.CreatePlatform(platform);
+                    await repo.SaveChanges();
 
                     Console.WriteLine("--> Message received. Creating platform.");
                 }

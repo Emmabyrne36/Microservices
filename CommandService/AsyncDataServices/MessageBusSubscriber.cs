@@ -73,7 +73,7 @@ namespace CommandService.AsyncDataServices
             _connection.ConnectionShutdown += RabbitMqConnectionShutdown;
         }
 
-        private void RabbitMqConnectionShutdown(object? sender, ShutdownEventArgs e)
+        private void RabbitMqConnectionShutdown(object sender, ShutdownEventArgs e)
         {
             Console.WriteLine("--> Connection Shutdown");
         }

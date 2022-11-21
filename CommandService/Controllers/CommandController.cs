@@ -20,27 +20,27 @@ namespace CommandService.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<CommandReadDto>> GetCommandsForPlatform(int platformId)
+        public async Task<ActionResult<IEnumerable<CommandReadDto>>> GetCommandsForPlatform(int platformId)
         {
-            if (!PlatformExists(platformId))
+            if (!await PlatformExists(platformId))
             {
                 return NotFound();
             }
 
-            var commands = _repository.GetCommandsForPlatform(platformId);
+            var commands = await _repository.GetCommandsForPlatform(platformId);
 
             return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commands));
         }
 
         [HttpGet("{commandId}", Name = "GetCommandForPlatform")]
-        public ActionResult<CommandReadDto> GetCommandForPlatform(int platformId, int commandId)
+        public async Task<ActionResult<CommandReadDto>> GetCommandForPlatform(int platformId, int commandId)
         {
-            if (!PlatformExists(platformId))
+            if (!await PlatformExists(platformId))
             {
                 return NotFound();
             }
 
-            var command = _repository.GetCommand(platformId, commandId);
+            var command = await _repository.GetCommand(platformId, commandId);
 
             if (command == null)
             {
@@ -51,17 +51,17 @@ namespace CommandService.Controllers
         }
 
         [HttpPost]
-        public ActionResult<CommandReadDto> CreateCommandForPlatform(int platformId, CommandCreateDto commandCreateDto)
+        public async Task<ActionResult<CommandReadDto>> CreateCommandForPlatform(int platformId, CommandCreateDto commandCreateDto)
         {
-            if (!PlatformExists(platformId))
+            if (!await PlatformExists(platformId))
             {
                 return NotFound();
             }
 
             var command = _mapper.Map<Command>(commandCreateDto);
 
-            _repository.CreateCommand(platformId, command);
-            _repository.SaveChanges();
+            await _repository.CreateCommand(platformId, command);
+            await _repository.SaveChanges();
 
             var response = _mapper.Map<CommandReadDto>(command);
 
@@ -73,6 +73,6 @@ namespace CommandService.Controllers
                 );
         }
 
-        private bool PlatformExists(int platformId) => _repository.PlatformExists(platformId);
+        private async Task<bool> PlatformExists(int platformId) => await _repository.PlatformExists(platformId);
     }
 }

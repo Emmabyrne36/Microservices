@@ -7,7 +7,6 @@ namespace PlatformService.AsyncDataServices
 {
     public class MessageBusClient : IMessageBusClient
     {
-        private readonly IConfiguration _configuration;
         private readonly IConnection _connection;
         private readonly IModel _channel;
 
@@ -15,11 +14,11 @@ namespace PlatformService.AsyncDataServices
 
         public MessageBusClient(IConfiguration configuration)
         {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            var config = configuration ?? throw new ArgumentNullException(nameof(configuration));
             var factory = new ConnectionFactory
             {
-                HostName = _configuration["RabbitMQHost"],
-                Port = int.Parse(_configuration["RabbitMQPort"])
+                HostName = config["RabbitMQHost"],
+                Port = int.Parse(config["RabbitMQPort"])
             };
 
             try
@@ -65,7 +64,7 @@ namespace PlatformService.AsyncDataServices
             Console.WriteLine($"-- We have send the message: {message}");
         }
 
-        private void RabbitMqConnectionShutdown(object? sender, ShutdownEventArgs args)
+        private void RabbitMqConnectionShutdown(object sender, ShutdownEventArgs args)
         {
             Console.WriteLine("--> RabbitMQ Connection Shutdown");
         }
